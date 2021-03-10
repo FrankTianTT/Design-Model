@@ -10,12 +10,10 @@ public class WinningStrategy implements Strategy{
     }
     @Override
     public Hand nextHand() {
-        if(this.won){
-            return preHand;
+        if(! this.won){
+            preHand = Hand.getHand(random.nextInt(3));
         }
-        else{
-            return Hand.getHand(random.nextInt(3));
-        }
+        return preHand;
     }
 
     @Override

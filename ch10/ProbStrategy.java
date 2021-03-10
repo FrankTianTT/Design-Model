@@ -14,11 +14,38 @@ public class ProbStrategy implements Strategy{
     }
     @Override
     public Hand nextHand() {
-        return null;
+        int bet = random.nextInt(getSum(currentHandValue));
+        int handvalue = 0;
+        if (bet < history[currentHandValue][0]){
+            handvalue = 0;
+        }
+        else if (bet < history[currentHandValue][0] + history[currentHandValue][1]){
+            handvalue = 1;
+        }
+        else{
+            handvalue = 2;
+        }
+        preHandValue = currentHandValue;
+        currentHandValue = handvalue;
+        return Hand.getHand(handvalue);
     }
 
     @Override
     public void study(boolean win) {
+        if(win){
+            history[preHandValue][currentHandValue] ++;
+        }
+        else{
+            history[preHandValue][(currentHandValue + 1) % 3] ++;
+            history[preHandValue][(currentHandValue + 2) % 3] ++;
+        }
+    }
 
+    private int getSum(int hv){
+        int sum = 0;
+        for(int i=0; i<3; i++){
+            sum += history[hv][i];
+        }
+        return sum;
     }
 }
